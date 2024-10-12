@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a23950d5-3174-4c0e-9b92-0b8618deeb75" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../testFlightAPI/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task.py" beforeDir="false" afterPath="$PROJECT_DIR$/task.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
