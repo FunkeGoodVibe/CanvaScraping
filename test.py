@@ -2,15 +2,15 @@
 from bs4 import BeautifulSoup
 import requests
 
-#read html
+# read html
 
 book = ["genesis, exodus"]
 chapters = [42, 43]
 
 url_base = "https://biblehub.com/questions/{0}/{1}.htm"
 
-def start_export(book, chapter):
 
+def start_export(chapter_end):
     url = url_base
     r = requests.get(url)
     html_doc = r.text
@@ -46,10 +46,10 @@ def start_export(book, chapter):
 
     """
     result_list = []
-    
+
     for i in range(1,21):
         result_list = text.find("{i}.")
-    
+
     a = int(result_list[0])
     b = int(result_list[1])
     """
@@ -91,5 +91,6 @@ def get_question(question_list):
         print(question_list[val])
     except:
         print("error at input stage")
+
 
 get_question(question_list)
