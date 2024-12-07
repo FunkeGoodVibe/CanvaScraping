@@ -1,28 +1,34 @@
 ###
 from bs4 import BeautifulSoup
 import requests
+import pandas as pd
 
 # read html
+df = {
 
-book = ["genesis, exodus"]
-chapters = [42, 43]
+    "genesis":42,
+    "exodus":43,
+}
 
 url_base = "https://biblehub.com/questions/{0}/{1}.htm"
 
+def get_questions(current_book, current_chapter):
 
-def start_export(chapter_end):
-    url = url_base
-    r = requests.get(url)
+    current_url = url_base.format(current_book, current_chapter)
+
+    r = requests.get(current_url)
     html_doc = r.text
 
-    soup = BeautifulSoup(html_doc, 'html.parser')  #
+    soup = BeautifulSoup(html_doc, 'html.parser')
     el = soup.find("p")  # Find <p>
 
     # print(el)
-    text = " ".join(el.strings)
-
+    textA = " ".join(el.strings)
+    print("Text A: {0}".format(textA))
     text = " ".join(el.strip() for el in el.strings)
+    print("Text: {0}".format(text))
 
+    #Find the questions numbers in the html
     index1 = text.find('1.')
     index2 = text.find('2.')
     index3 = text.find('3.')
@@ -44,16 +50,7 @@ def start_export(chapter_end):
     index19 = text.find('19.')
     index20 = text.find('20.')
 
-    """
-    result_list = []
-
-    for i in range(1,21):
-        result_list = text.find("{i}.")
-
-    a = int(result_list[0])
-    b = int(result_list[1])
-    """
-
+    #Use the position to strip the questions 1-20
     question_1 = text[index1:index2]
     question_2 = text[index2:index3]
     question_3 = text[index3:index4]
@@ -83,14 +80,16 @@ def start_export(chapter_end):
 
     return question_list
 
-
-def get_question(question_list):
+def get_input():
     try:
-        val = input("Which question number?: ")
-        val = int(val) - 1
-        print(question_list[val])
-    except:
-        print("error at input stage")
+        get_book = input("Which book?: ")
+        get_book = get_book.lower()
 
+        get_chapter = input("Which chapter?: ")
+        get_chapter = int(get_chapter) - 1
 
-get_question(question_list)
+        print(get_questions(get_book,get_chapter))
+    except Exception as e:
+        print("error at input stage: ", e)
+
+get_input()
