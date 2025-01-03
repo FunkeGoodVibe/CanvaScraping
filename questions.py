@@ -88,9 +88,9 @@ def get_questions(current_book, current_chapter):
 
     # print(el)
     textA = " ".join(el.strings)
-    print("Text A: {0}".format(textA))
+    #print("Text A: {0}".format(textA))
     text = " ".join(el.strip() for el in el.strings)
-    print("Text: {0}".format(text))
+    #print("Text: {0}".format(text))
 
     #Find the questions numbers in the html
     index1 = text.find('1.')
@@ -152,7 +152,21 @@ def get_input():
         get_chapter = input("Which chapter?: ")
         get_chapter = int(get_chapter) - 1
 
-        print(get_questions(get_book,get_chapter))
+        get_question_count = input("How many questions (1-20)?: ")
+        get_question_count = int(get_question_count)
+        if get_question_count < 0:
+            get_question_count = 1
+        if get_question_count > 20:
+            get_question_count = 20
+
+        question_list = get_questions(get_book,get_chapter)
+
+        title = ("\n{0} {1} bible study questions!:".format(get_book, get_chapter))
+        print(title.upper())
+
+        for i in range(0,get_question_count):
+            print(question_list[i])
+
     except Exception as e:
         print("error at input stage: ", e)
 
