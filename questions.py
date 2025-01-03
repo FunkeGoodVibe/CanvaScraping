@@ -150,7 +150,7 @@ def get_input():
         get_book = get_book.lower()
 
         get_chapter = input("Which chapter?: ")
-        get_chapter = int(get_chapter) - 1
+        get_chapter = int(get_chapter) #- 1
 
         get_question_count = input("How many questions (1-20)?: ")
         get_question_count = int(get_question_count)
