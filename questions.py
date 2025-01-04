@@ -1,6 +1,7 @@
 ###
 from bs4 import BeautifulSoup
 import requests
+import sys
 import pandas as pd
 
 # read html
@@ -85,8 +86,8 @@ def get_questions(current_book, current_chapter):
 
     soup = BeautifulSoup(html_doc, 'html.parser')
     el = soup.find("p")  # Find <p>
-
-    # print(el)
+    print(html_doc)
+    print(el)
     textA = " ".join(el.strings)
     #print("Text A: {0}".format(textA))
     text = " ".join(el.strip() for el in el.strings)
@@ -149,8 +150,19 @@ def get_input():
         get_book = input("Which book?: ")
         get_book = get_book.lower()
 
+        if get_book not in df.keys():
+            print("{0} not in list of books".format(get_book))
+            print("please enter one of the following: {0}".format(df.keys()))
+            quit()
+
         get_chapter = input("Which chapter?: ")
-        get_chapter = int(get_chapter) #- 1
+        get_chapter = int(get_chapter)
+
+        max_chapter = int(df.get(get_book))
+
+        if get_chapter > max_chapter:
+            print("maximum chapter for {0} is {1}".format(get_book, max_chapter))
+            get_chapter = max_chapter
 
         get_question_count = input("How many questions (1-20)?: ")
         get_question_count = int(get_question_count)
@@ -171,4 +183,3 @@ def get_input():
         print("error at input stage: ", e)
 
 get_input()
-
