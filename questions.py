@@ -1,10 +1,7 @@
 ###
 from bs4 import BeautifulSoup
 import requests
-import sys
-import pandas as pd
 
-# read html
 df = {
     "genesis":50,
     "exodus":40,
@@ -74,7 +71,6 @@ df = {
     "revelation":22
     }
 
-
 url_base = "https://biblehub.com/questions/{0}/{1}.htm"
 
 def get_questions(current_book, current_chapter):
@@ -86,12 +82,8 @@ def get_questions(current_book, current_chapter):
 
     soup = BeautifulSoup(html_doc, 'html.parser')
     el = soup.find("p")  # Find <p>
-    print(html_doc)
-    print(el)
     textA = " ".join(el.strings)
-    #print("Text A: {0}".format(textA))
     text = " ".join(el.strip() for el in el.strings)
-    #print("Text: {0}".format(text))
 
     #Find the questions numbers in the html
     index1 = text.find('1.')
@@ -149,16 +141,19 @@ def get_input():
     try:
         get_book = input("Which book?: ")
         get_book = get_book.lower()
+        get_book = get_book.strip()  # remove trailing spaces
 
         if get_book not in df.keys():
             print("{0} not in list of books".format(get_book))
             print("please enter one of the following: {0}".format(df.keys()))
             quit()
+        get_book_replace_spaces = get_book.replace(" ", "_") #replace the spaces with _.
+        print(get_book_replace_spaces)
 
         get_chapter = input("Which chapter?: ")
         get_chapter = int(get_chapter)
-
         max_chapter = int(df.get(get_book))
+
 
         if get_chapter > max_chapter:
             print("maximum chapter for {0} is {1}".format(get_book, max_chapter))
@@ -171,7 +166,7 @@ def get_input():
         if get_question_count > 20:
             get_question_count = 20
 
-        question_list = get_questions(get_book,get_chapter)
+        question_list = get_questions(get_book_replace_spaces,get_chapter)
 
         title = ("\n{0} {1} bible study questions!:".format(get_book, get_chapter))
         print(title.upper())
