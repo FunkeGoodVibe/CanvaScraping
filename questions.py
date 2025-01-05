@@ -71,19 +71,75 @@ df = {
     "revelation":22
     }
 
-url_base = "https://biblehub.com/questions/{0}/{1}.htm"
+url_base_niv_book = "https://biblehub.com/niv/{0}/{1}.htm"
+url_base_questions = "https://biblehub.com/questions/{0}/{1}.htm"
+
+def get_input():
+    try:
+        get_book = input("Which book?: ")
+        get_book = get_book.lower()
+        get_book = get_book.strip()  # remove trailing spaces
+
+        if get_book not in df.keys():
+            print("{0} not in list of books".format(get_book))
+            print("please enter one of the following: {0}".format(df.keys()))
+            quit()
+
+        get_book_replace_spaces = get_book.replace(" ", "_") #replace the spaces with _.
+        print(get_book_replace_spaces)
+
+        get_chapter = input("Which chapter?: ")
+        get_chapter = int(get_chapter)
+        max_chapter = int(df.get(get_book))
+
+        if get_chapter > max_chapter:
+            print("maximum chapter for {0} is {1}".format(get_book, max_chapter))
+            get_chapter = max_chapter
+
+        get_question_count = input("How many questions (1-20)?: ")
+        get_question_count = int(get_question_count)
+        if get_question_count < 0:
+            get_question_count = 1
+        if get_question_count > 20:
+            get_question_count = 20
+
+    except Exception as e:
+        print("error at input stage: ", e)
+
+    return [get_book, get_book_replace_spaces, get_chapter, get_question_count]
+
+
+def get_niv_chapter(current_book, current_chapter):
+
+    current_url = url_base_niv_book.format(current_book, current_chapter)
+
+    r = requests.get(current_url)
+    html_doc = r.text
+
+    soup = BeautifulSoup(html_doc, 'html.parser')
+
+    # get title
+    title = soup.find("p")  # Find <p>
+    #title_string = " ".join(title.strings)
+    title_string = " ".join(title.strip() for title in title.strings)
+    intro_text = "\n{0} {1} bible study - {2}!:".format(current_book, current_chapter, title_string)
+    print(intro_text.upper(), "\n")
+
+    # get verses
+    verses = soup.find(class_='chap') #find_all
+    verses_string_new_line = " ".join(verses.strings)
+    print(verses_string_new_line)
 
 def get_questions(current_book, current_chapter):
 
-    current_url = url_base.format(current_book, current_chapter)
+    current_url = url_base_questions.format(current_book, current_chapter)
 
     r = requests.get(current_url)
     html_doc = r.text
 
     soup = BeautifulSoup(html_doc, 'html.parser')
     el = soup.find("p")  # Find <p>
-    textA = " ".join(el.strings)
-    text = " ".join(el.strip() for el in el.strings)
+    text = " ".join(el.strip() for el in el.strings) #textA = " ".join(el.strings)
 
     #Find the questions numbers in the html
     index1 = text.find('1.')
@@ -137,44 +193,18 @@ def get_questions(current_book, current_chapter):
 
     return question_list
 
-def get_input():
-    try:
-        get_book = input("Which book?: ")
-        get_book = get_book.lower()
-        get_book = get_book.strip()  # remove trailing spaces
 
-        if get_book not in df.keys():
-            print("{0} not in list of books".format(get_book))
-            print("please enter one of the following: {0}".format(df.keys()))
-            quit()
-        get_book_replace_spaces = get_book.replace(" ", "_") #replace the spaces with _.
-        print(get_book_replace_spaces)
+def print_questions(get_book, get_book_replace_spaces, get_chapter, get_question_count):
 
-        get_chapter = input("Which chapter?: ")
-        get_chapter = int(get_chapter)
-        max_chapter = int(df.get(get_book))
+    question_list = get_questions(get_book_replace_spaces, get_chapter)
+
+    title = ("\n{0} {1} bible study questions!:".format(get_book, get_chapter))
+    print(title.upper())
+
+    for i in range(0, get_question_count):
+        print(question_list[i])
 
 
-        if get_chapter > max_chapter:
-            print("maximum chapter for {0} is {1}".format(get_book, max_chapter))
-            get_chapter = max_chapter
-
-        get_question_count = input("How many questions (1-20)?: ")
-        get_question_count = int(get_question_count)
-        if get_question_count < 0:
-            get_question_count = 1
-        if get_question_count > 20:
-            get_question_count = 20
-
-        question_list = get_questions(get_book_replace_spaces,get_chapter)
-
-        title = ("\n{0} {1} bible study questions!:".format(get_book, get_chapter))
-        print(title.upper())
-
-        for i in range(0,get_question_count):
-            print(question_list[i])
-
-    except Exception as e:
-        print("error at input stage: ", e)
 
 get_input()
+
