@@ -193,7 +193,6 @@ def get_questions(current_book, current_chapter):
 
     return question_list
 
-
 def print_questions(get_book, get_book_replace_spaces, get_chapter, get_question_count):
 
     question_list = get_questions(get_book_replace_spaces, get_chapter)
@@ -205,6 +204,9 @@ def print_questions(get_book, get_book_replace_spaces, get_chapter, get_question
         print(question_list[i])
 
 
+result = get_input()
+get_book = result[0]; get_book_replace_spaces = result[1]; get_chapter = result[2]; get_question_count = result[3]
 
-get_input()
-
+print("Book: {0}\nChapter: {1}\nQuestion Count: {2}".format(get_book, get_book_replace_spaces, get_question_count))
+get_niv_chapter(get_book, get_chapter)
+print_questions(get_book, get_book_replace_spaces, get_chapter, get_question_count)
