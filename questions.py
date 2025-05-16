@@ -183,7 +183,7 @@ def get_questions(current_book, current_chapter):
     question_17 = text[index17:index18]
     question_18 = text[index18:index19]
     question_19 = text[index19:index20]
-    question_20 = text[index20:]
+    question_20 = text[index20:] 
 
     question_list = [question_1, question_2, question_3, question_4, question_5,
                      question_6, question_7, question_8, question_9, question_10,
