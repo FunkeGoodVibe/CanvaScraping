@@ -210,3 +210,9 @@ get_book = result[0]; get_book_replace_spaces = result[1]; get_chapter = result[
 print("Book: {0}\nChapter: {1}\nQuestion Count: {2}".format(get_book, get_book_replace_spaces, get_question_count))
 get_niv_chapter(get_book, get_chapter)
 print_questions(get_book, get_book_replace_spaces, get_chapter, get_question_count)
+
+
+
+def random_book_selector():
+
+    df
