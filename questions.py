@@ -1,6 +1,7 @@
 ###
 from bs4 import BeautifulSoup
 import requests
+import random
 
 df = {
     "genesis":50,
@@ -24,7 +25,7 @@ df = {
     "psalms":150,
     "proverbs":31,
     "ecclesiastes":12,
-    "song of solomon":8,
+    "songs":8,
     "isaiah":66,
     "jeremiah":52,
     "lamentations":5,
@@ -204,15 +205,42 @@ def print_questions(get_book, get_book_replace_spaces, get_chapter, get_question
         print(question_list[i])
 
 
-result = get_input()
-get_book = result[0]; get_book_replace_spaces = result[1]; get_chapter = result[2]; get_question_count = result[3]
+def get_random_book():
 
-print("Book: {0}\nChapter: {1}\nQuestion Count: {2}".format(get_book, get_book_replace_spaces, get_question_count))
-get_niv_chapter(get_book, get_chapter)
-print_questions(get_book, get_book_replace_spaces, get_chapter, get_question_count)
+    generate_book_no = random.randint(1, 66)
+    random_book = list(df.keys())[generate_book_no]
+    random_book_no_chapters = df[random_book]
+    generate_chapter_no = random.randint(1, random_book_no_chapters)
+    
+    print("[{0}] Book: {1} chapter: {2}".format(generate_book_no, random_book, generate_chapter_no))
+    
+    get_book_replace_spaces = random_book.replace(" ", "_") #replace the spaces with _.
+    get_question_count = input("Number of questions?: ")
+    get_question_count = int(get_question_count)
+    
+    get_niv_chapter(get_book_replace_spaces, generate_chapter_no)
+    print_questions(random_book, get_book_replace_spaces, generate_chapter_no, get_question_count)
+
+
+def get_user_input():
+
+    result = get_input()
+    get_book = result[0]; get_book_replace_spaces = result[1]; get_chapter = result[2]; get_question_count = result[3]
+
+    print("Book: {0}\nChapter: {1}\nQuestion Count: {2}".format(get_book, get_book_replace_spaces, get_question_count))
+    get_niv_chapter(get_book, get_chapter)
+    print_questions(get_book, get_book_replace_spaces, get_chapter, get_question_count)
 
 
 
-def random_book_selector():
+try:
+    get_game_type = input("Which game type? (1=Random 2=Your Selection)")
+    get_game_type = int(get_game_type)
+except Exception as e: 
+    print("Please input 1 or 2")
 
-    df
+
+if get_game_type == 1: 
+    get_random_book()
+else: 
+    get_user_input()

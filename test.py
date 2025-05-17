@@ -81,7 +81,6 @@ print(random_book)
 random_book_no_chapters = df[random_book]
 print(random_book_no_chapters)
 
-
 generate_chapter_no = random.randint(1, random_book_no_chapters)
 print(generate_chapter_no)
 
