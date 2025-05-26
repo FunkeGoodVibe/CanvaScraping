@@ -201,26 +201,39 @@ def print_questions(get_book, get_book_replace_spaces, get_chapter, get_question
     title = ("\n{0} {1} bible study questions!:".format(get_book, get_chapter))
     print(title.upper())
 
+    #if question count != 1-20, return 20 questions 
+    if get_question_count not in range(1,20):
+        get_question_count = 20  
+     
     for i in range(0, get_question_count):
         print(question_list[i])
 
 
 def get_random_book():
 
-    generate_book_no = random.randint(1, 66)
+    '''
+    random_list = []
+    for i in range(0,1000):
+        generate_book_no = random.randint(1, 66)
+        random_list.append(generate_book_no)    
+    print(sorted(random_list))
+    '''
+
+    generate_book_no = random.randint(0, 65) #0 to 65, for the dictionary key mapping only. 
+
     random_book = list(df.keys())[generate_book_no]
     random_book_no_chapters = df[random_book]
     generate_chapter_no = random.randint(1, random_book_no_chapters)
     
-    print("[{0}] Book: {1} chapter: {2}".format(generate_book_no, random_book, generate_chapter_no))
+    print("[{0}] Book: {1} chapter: {2}".format(generate_book_no+1, random_book, generate_chapter_no))
     
     get_book_replace_spaces = random_book.replace(" ", "_") #replace the spaces with _.
     get_question_count = input("Number of questions?: ")
     get_question_count = int(get_question_count)
-    
+
     get_niv_chapter(get_book_replace_spaces, generate_chapter_no)
     print_questions(random_book, get_book_replace_spaces, generate_chapter_no, get_question_count)
-
+    
 
 def get_user_input():
 
