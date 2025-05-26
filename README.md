@@ -1,6 +1,6 @@
 # CanvaScraping
-<img src="img/image.png" alt="bible-hub-img" style="width:100%; height:auto;">
-<img src="img/image-3.png" alt="python-img" style="width:50%; height:auto;">
+<img src="img/image.png" alt="bible-hub-img" style="width:50%; height:auto;">
+<img src="img/image-3.png" alt="python-img" style="width:40%; height:auto;">
 
 
 What are you trying to do? 
